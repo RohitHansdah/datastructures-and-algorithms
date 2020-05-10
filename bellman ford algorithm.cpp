@@ -15,6 +15,7 @@ using namespace std;
 ll n,m,u,v,w;
 vector<ll>adj[N];
 ll cost[N]={0};
+ll cycle[N]={0};
 void bell()
 {
      //relax each edge v-1 times 
@@ -29,6 +30,29 @@ void bell()
      for(ll i=1;i<=n;i++)
      {
           cout<<cost[i]<<endl;
+          cycle[i]=cost[i];
+     }
+     for(ll i=0;i<2*m;i=i+2)
+     {
+          cost[adj[i][1]]=min(cost[adj[i][0]]+adj[i][2],cost[adj[i][1]]);
+          cost[adj[i+1][1]]=min(cost[adj[i+1][0]]+adj[i+1][2],cost[adj[i+1][1]]);
+     }
+     bool check=false;
+     for(ll i=1;i<=n;i++)
+     {
+          if(cost[i]!=cycle[i])
+          {
+               check=true;
+               break;
+          }
+     }
+     if(check)
+     {
+          cout<<"negative cycle is present";
+     }
+     else
+     {
+          cout<<"negative cycle is not present";
      }
 }
 int main()
